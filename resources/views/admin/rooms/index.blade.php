@@ -7,7 +7,7 @@
             <div class="card">
                 <div class="card-header">
                     <h4>Habitaciones</h4>
-                    <a href="{{ route('rooms.create') }}" class="btn btn-primary">Agregar Habitación</a>
+                    <a href="{{ route('rooms.create') }}" class="btn btn-primary">Añadir Habitación</a>
                 </div>
                 <div class="card-body">
                     <table class="table">
@@ -17,6 +17,7 @@
                                 <th>Descripción</th>
                                 <th>Precio</th>
                                 <th>Capacidad</th>
+                                <th>Imagen</th>
                                 <th>Acciones</th>
                             </tr>
                         </thead>
@@ -28,6 +29,13 @@
                                 <td>{{ $room->price }}</td>
                                 <td>{{ $room->capacity }}</td>
                                 <td>
+                                    @if($room->image)
+                                        <img src="{{ asset('storage/' . $room->image) }}" alt="{{ $room->name }}" width="100">
+                                    @else
+                                        No image
+                                    @endif
+                                </td>
+                                <td>
                                     <a href="{{ route('rooms.edit', $room) }}" class="btn btn-warning">Editar</a>
                                     <form action="{{ route('rooms.destroy', $room) }}" method="POST" style="display:inline-block;">
                                         @csrf
@@ -35,7 +43,6 @@
                                         <button type="submit" class="btn btn-danger">Eliminar</button>
                                     </form>
                                 </td>
-                            </tr>
                             @endforeach
                         </tbody>
                     </table>

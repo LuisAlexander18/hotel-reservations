@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage; // Importa la clase Storage
 
 class RoomController extends Controller
 {
@@ -25,9 +26,22 @@ class RoomController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'capacity' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        Room::create($request->all());
+        $imagePath = null;
+        if ($request->hasFile('image')) {
+            $imagePath = $request->file('image')->store('room_images', 'public');
+        }
+
+        Room::create([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'capacity' => $request->capacity,
+            'image' => $imagePath,
+        ]);
+
         return redirect()->route('rooms.index')->with('success', 'Room created successfully.');
     }
 
@@ -43,14 +57,33 @@ class RoomController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'capacity' => 'required|integer',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
-        $room->update($request->all());
+        $imagePath = $room->image;
+        if ($request->hasFile('image')) {
+            if ($room->image) {
+                Storage::delete('public/' . $room->image);
+            }
+            $imagePath = $request->file('image')->store('room_images', 'public');
+        }
+
+        $room->update([
+            'name' => $request->name,
+            'description' => $request->description,
+            'price' => $request->price,
+            'capacity' => $request->capacity,
+            'image' => $imagePath,
+        ]);
+
         return redirect()->route('rooms.index')->with('success', 'Room updated successfully.');
     }
 
     public function destroy(Room $room)
     {
+        if ($room->image) {
+            Storage::delete('public/' . $room->image);
+        }
         $room->delete();
         return redirect()->route('rooms.index')->with('success', 'Room deleted successfully.');
     }

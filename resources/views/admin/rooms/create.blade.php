@@ -6,10 +6,10 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Agregar Habitación</h4>
+                    <h4>Añadir Habitación</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('rooms.store') }}" method="POST">
+                    <form action="{{ route('rooms.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <div class="form-group">
                             <label for="name">Nombre</label>
@@ -26,6 +26,10 @@
                         <div class="form-group">
                             <label for="capacity">Capacidad</label>
                             <input type="number" name="capacity" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="image">Imagen</label>
+                            <input type="file" name="image" class="form-control"><br>
                         </div>
                         <button type="submit" class="btn btn-success">Guardar</button>
                     </form>
