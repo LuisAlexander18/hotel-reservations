@@ -62,7 +62,7 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container">
         <div class="navbar-wrapper">
-            <a class="nav-link nav-link-white" href="#">Sistema de Reservaciones para Usuarios VIP</a>
+            <a class="nav-link nav-link-white" href="#">Sistema para la reserva de habitaciones USUARIOS VIP</a>
         </div>
         <div class="collapse navbar-collapse">
             <ul class="navbar-nav ms-auto">
