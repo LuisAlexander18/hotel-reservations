@@ -159,146 +159,34 @@
                 </div>
                 <div class="row">
                 <div class="row">
-<!-- Habitación Sencilla -->
-<div class="col-md-4">
-    <div class="card">
-        <img class="card-img-top" src="{{ asset('assets/front/assets/img/room1.jpg') }}" alt="Habitación 1">
-        <div class="card-body">
-            <h4 class="card-title">Habitación Sencilla</h4>
-            <p class="card-text">Perfecta para una persona, muy cómodo.</p>
-            <form>
-                <div class="form-group">
-                    <label for="checkin1">Fecha de entrada:</label>
-                    <input type="date" class="form-control" id="checkin1" placeholder="Selecciona tu fecha de entrada">
-                </div>
-                <div class="form-group">
-                    <label for="checkout1">Fecha de salida:</label>
-                    <input type="date" class="form-control" id="checkout1" placeholder="Selecciona tu fecha de salida">
-                </div>
-                <button type="button" class="btn btn-availability" data-room-id="1">Reservar</button>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- Habitación Doble -->
-<div class="col-md-4">
-    <div class="card">
-        <img class="card-img-top" src="{{ asset('assets/front/assets/img/room2.jpg') }}" alt="Habitación 2">
-        <div class="card-body">
-            <h4 class="card-title">Habitación Doble</h4>
-            <p class="card-text">Ideal para parejas, con vistas al mar.</p>
-            <form>
-                <div class="form-group">
-                    <label for="checkin2">Fecha de entrada:</label>
-                    <input type="date" class="form-control" id="checkin2" placeholder="Selecciona tu fecha de entrada">
-                </div>
-                <div class="form-group">
-                    <label for="checkout2">Fecha de salida:</label>
-                    <input type="date" class="form-control" id="checkout2" placeholder="Selecciona tu fecha de salida">
-                </div>
-                <button type="button" class="btn btn-availability" data-room-id="2">Reservar</button>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- Suite -->
-<div class="col-md-4">
-    <div class="card">
-        <img class="card-img-top" src="{{ asset('assets/front/assets/img/room3.jpg') }}" alt="Habitación 3">
-        <div class="card-body">
-            <h4 class="card-title">Suite</h4>
-            <p class="card-text">Una experiencia de lujo para familias.</p>
-            <form>
-                <div class="form-group">
-                    <label for="checkin3">Fecha de entrada:</label>
-                    <input type="date" class="form-control" id="checkin3" placeholder="Selecciona tu fecha de entrada">
-                </div>
-                <div class="form-group">
-                    <label for="checkout3">Fecha de salida:</label>
-                    <input type="date" class="form-control" id="checkout3" placeholder="Selecciona tu fecha de salida">
-                </div>
-                <button type="button" class="btn btn-availability" data-room-id="3">Reservar</button>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="main main-raised">
-        <div class="container">
-            <div class="section text-center" id="habitaciones">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 class="title">Segunda planta</h2>
-                        <p class="description">Selecciona las fechas y verifica la disponibilidad.</p>
+                @foreach ($rooms as $room)
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img class="card-img-top" src="{{ $room->image ? asset('storage/' . $room->image) : asset('assets/front/assets/img/default-room.jpg') }}" alt="Habitación {{ $room->room_number }}">
+                            <div class="card-body">
+                                <h4 class="card-title">{{ $room->name }}</h4>
+                                <p class="card-text">{{ $room->description }}</p>
+                                <p class="card-text"><strong>Precio:</strong> ${{ $room->price }} por noche</p>
+                                <p class="card-text"><strong>Capacidad:</strong> {{ $room->capacity }} personas</p>
+                                <form>
+                                    <div class="form-group">
+                                        <label for="checkin{{ $room->id }}">Fecha de entrada:</label>
+                                        <input type="date" class="form-control" id="checkin{{ $room->id }}" placeholder="Selecciona tu fecha de entrada">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="checkout{{ $room->id }}">Fecha de salida:</label>
+                                        <input type="date" class="form-control" id="checkout{{ $room->id }}" placeholder="Selecciona tu fecha de salida">
+                                    </div>
+                                    <button type="button" class="btn btn-availability" data-room-id="{{ $room->id }}">Reservar</button>
+                                </form>
+                            </div>
+                        </div>
                     </div>
+                @endforeach
                 </div>
-                <div class="row">
-                <div class="row">
-
-<!-- Habitación Sencilla -->
-<div class="col-md-4">
-    <div class="card">
-        <img class="card-img-top" src="{{ asset('assets/front/assets/img/room1.jpg') }}" alt="Habitación 1">
-        <div class="card-body">
-            <h4 class="card-title">Habitación Sencilla</h4>
-            <p class="card-text">Perfecta para una persona, muy cómodo.</p>
-            <form>
-                <div class="form-group">
-                    <label for="checkin1">Fecha de entrada:</label>
-                    <input type="date" class="form-control" id="checkin1" placeholder="Selecciona tu fecha de entrada">
-                </div>
-                <div class="form-group">
-                    <label for="checkout1">Fecha de salida:</label>
-                    <input type="date" class="form-control" id="checkout1" placeholder="Selecciona tu fecha de salida">
-                </div>
-                <button type="button" class="btn btn-availability" data-room-id="1">Reservar</button>
-            </form>
+            </div>
         </div>
     </div>
-</div>
-<!-- Habitación Doble -->
-<div class="col-md-4">
-    <div class="card">
-        <img class="card-img-top" src="{{ asset('assets/front/assets/img/room2.jpg') }}" alt="Habitación 2">
-        <div class="card-body">
-            <h4 class="card-title">Habitación Doble</h4>
-            <p class="card-text">Ideal para parejas, con vistas al mar.</p>
-            <form>
-                <div class="form-group">
-                    <label for="checkin2">Fecha de entrada:</label>
-                    <input type="date" class="form-control" id="checkin2" placeholder="Selecciona tu fecha de entrada">
-                </div>
-                <div class="form-group">
-                    <label for="checkout2">Fecha de salida:</label>
-                    <input type="date" class="form-control" id="checkout2" placeholder="Selecciona tu fecha de salida">
-                </div>
-                <button type="button" class="btn btn-availability" data-room-id="2">Reservar</button>
-            </form>
-        </div>
-    </div>
-</div>
-<!-- Suite -->
-<div class="col-md-4">
-    <div class="card">
-        <img class="card-img-top" src="{{ asset('assets/front/assets/img/room3.jpg') }}" alt="Habitación 3">
-        <div class="card-body">
-            <h4 class="card-title">Suite</h4>
-            <p class="card-text">Una experiencia de lujo para familias.</p>
-            <form>
-                <div class="form-group">
-                    <label for="checkin3">Fecha de entrada:</label>
-                    <input type="date" class="form-control" id="checkin3" placeholder="Selecciona tu fecha de entrada">
-                </div>
-                <div class="form-group">
-                    <label for="checkout3">Fecha de salida:</label>
-                    <input type="date" class="form-control" id="checkout3" placeholder="Selecciona tu fecha de salida">
-                </div>
-                <button type="button" class="btn btn-availability" data-room-id="3">Reservar</button>
-            </form>
-        </div>
-    </div>
-</div>
-
 
     <!-- Core JS Files -->
     <script src="{{ asset('assets/front/assets/js/core/jquery.min.js') }}"></script>
@@ -335,7 +223,6 @@
     });
 </script>
 
-
 <!-- Información de Contacto -->
 <div id="contacto" class="container-fluid bg-primary text-white p-4">
     <div class="row">
@@ -353,7 +240,6 @@
         </div>
     </div>
 </div>
-
 
 </body>
 

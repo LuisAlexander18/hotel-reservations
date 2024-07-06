@@ -16,7 +16,17 @@ class Room extends Model
         'capacity',
         'room_number',
         'type',
-        'image'
+        'image',
+        'status'
     ];
-}
 
+    public function reservations()
+    {
+        return $this->hasMany(Reservation::class);
+    }
+
+    public function currentReservation()
+    {
+        return $this->hasOne(Reservation::class)->latest();
+    }
+}

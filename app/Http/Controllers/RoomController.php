@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Room;
+use App\Models\Reservation;
+use App\Models\Customer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -10,7 +12,7 @@ class RoomController extends Controller
 {
     public function index()
     {
-        $rooms = Room::all();
+        $rooms = Room::orderBy('room_number', 'asc')->get();
         return view('admin.rooms.index', compact('rooms'));
     }
 
@@ -92,5 +94,27 @@ class RoomController extends Controller
         }
         $room->delete();
         return redirect()->route('rooms.index')->with('success', 'Habitación eliminada exitosamente.');
+    }
+
+    public function reserve(Request $request, Room $room)
+    {
+        $request->validate([
+            'customer_id' => 'required|exists:customers,id',
+            'checkin_date' => 'required|date|after_or_equal:today',
+            'checkout_date' => 'required|date|after:checkin_date',
+        ]);
+
+        Reservation::create([
+            'room_id' => $room->id,
+            'customer_id' => $request->customer_id,
+            'checkin_date' => $request->checkin_date,
+            'checkout_date' => $request->checkout_date,
+            'status' => 'Confirmed'
+        ]);
+
+        $room->status = 'Ocupada';
+        $room->save();
+
+        return redirect()->route('rooms.index')->with('success', 'Habitación reservada exitosamente.');
     }
 }

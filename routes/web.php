@@ -6,16 +6,17 @@ use App\Http\Controllers\FrontController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ReservationController;
-use App\Http\Controllers\CustomerController;
-use App\Http\Controllers\Auth\RegisteredUserController;
+use App\Http\Controllers\Auth\RegisterUserController;
 
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.index');
 });
 
 Route::resource('rooms', RoomController::class)->middleware('auth');
+
 Route::resource('reservations', ReservationController::class)->middleware('auth');
-Route::resource('customers', CustomerController::class)->middleware('auth');
+
+Route::post('reservations/change-status/{room}', [ReservationController::class, 'changeStatus'])->name('reservations.changeStatus');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -34,9 +35,7 @@ Route::middleware('auth')->group(function () {
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
-
-
-Route::get('register', [RegisteredUserController::class, 'create'])->name('register');
-Route::post('register', [RegisteredUserController::class, 'store']);
+Route::get('register', [RegisterUserController::class, 'showRegistrationForm'])->name('register');
+Route::post('register', [RegisterUserController::class, 'register']);
 
 require __DIR__.'/auth.php';
