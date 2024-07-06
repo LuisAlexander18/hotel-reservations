@@ -6,18 +6,18 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Reservations</h4>
+                    <h4>Reservas</h4>
                 </div>
                 <div class="card-body">
                     <table class="table">
                         <thead>
                             <tr>
-                                <th>Room</th>
-                                <th>Customer</th>
-                                <th>Check-in Date</th>
-                                <th>Check-out Date</th>
-                                <th>Status</th>
-                                <th>Actions</th>
+                                <th>Habitación</th>
+                                <th>Cliente</th>
+                                <th>Fecha de Entrada</th>
+                                <th>Fecha de Salida</th>
+                                <th>Estado</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -29,11 +29,11 @@
                                 <td>{{ $reservation->checkout_date }}</td>
                                 <td>{{ $reservation->status }}</td>
                                 <td>
-                                    <a href="{{ route('reservations.show', $reservation) }}" class="btn btn-info">View</a>
+                                    <a href="{{ route('reservations.show', $reservation) }}" class="btn btn-info">Ver</a>
                                     <form action="{{ route('reservations.destroy', $reservation) }}" method="POST" style="display:inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger">Delete</button>
+                                        <button type="submit" class="btn btn-danger">Eliminar</button>
                                     </form>
                                 </td>
                             </tr>

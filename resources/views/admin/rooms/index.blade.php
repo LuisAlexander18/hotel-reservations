@@ -13,6 +13,7 @@
                     <table class="table">
                         <thead>
                             <tr>
+                                <th>Número</th>
                                 <th>Nombre</th>
                                 <th>Descripción</th>
                                 <th>Precio</th>
@@ -24,6 +25,7 @@
                         <tbody>
                             @foreach($rooms as $room)
                             <tr>
+                                <td>{{ $room->room_number }}</td>
                                 <td>{{ $room->name }}</td>
                                 <td>{{ $room->description }}</td>
                                 <td>{{ $room->price }}</td>
@@ -37,7 +39,7 @@
                                 </td>
                                 <td>
                                     <a href="{{ route('rooms.edit', $room) }}" class="btn btn-warning">Editar</a>
-                                    <form action="{{ route('rooms.destroy', $room) }}" method="POST" style="display:inline-block;">
+                                    <form action="{{ route('rooms.destroy', $room) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('¿Estás seguro de que deseas eliminar esta habitación?');">
                                         @csrf
                                         @method('DELETE')
                                         <button type="submit" class="btn btn-danger">Eliminar</button>

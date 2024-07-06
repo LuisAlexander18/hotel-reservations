@@ -11,7 +11,7 @@
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. -->
 <!DOCTYPE html>
-<html lang="en" itemscope itemtype="http://schema.org/WebPage">
+<html lang="es" itemscope itemtype="http://schema.org/WebPage">
 
 <head>
 

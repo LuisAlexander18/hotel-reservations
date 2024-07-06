@@ -28,8 +28,16 @@
                             <input type="number" name="capacity" class="form-control" required>
                         </div>
                         <div class="form-group">
+                            <label for="room_number">Número de Habitación</label>
+                            <input type="number" name="room_number" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="type">Tipo</label>
+                            <input type="text" name="type" class="form-control" value="standard">
+                        </div>
+                        <div class="form-group">
                             <label for="image">Imagen</label>
-                            <input type="file" name="image" class="form-control"><br>
+                            <input type="file" name="image" class="form-control">
                         </div>
                         <button type="submit" class="btn btn-success">Guardar</button>
                     </form>

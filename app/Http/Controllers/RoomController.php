@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage; // Importa la clase Storage
+use Illuminate\Support\Facades\Storage;
 
 class RoomController extends Controller
 {
@@ -26,6 +26,7 @@ class RoomController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'capacity' => 'required|integer',
+            'room_number' => 'required|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -39,10 +40,12 @@ class RoomController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'capacity' => $request->capacity,
+            'room_number' => $request->room_number,
+            'type' => $request->type ?? 'standard',
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('rooms.index')->with('success', 'Room created successfully.');
+        return redirect()->route('rooms.index')->with('success', 'Habitación creada exitosamente.');
     }
 
     public function edit(Room $room)
@@ -57,6 +60,7 @@ class RoomController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric',
             'capacity' => 'required|integer',
+            'room_number' => 'required|integer',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
 
@@ -73,10 +77,12 @@ class RoomController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'capacity' => $request->capacity,
+            'room_number' => $request->room_number,
+            'type' => $request->type ?? 'standard',
             'image' => $imagePath,
         ]);
 
-        return redirect()->route('rooms.index')->with('success', 'Room updated successfully.');
+        return redirect()->route('rooms.index')->with('success', 'Habitación actualizada exitosamente.');
     }
 
     public function destroy(Room $room)
@@ -85,6 +91,6 @@ class RoomController extends Controller
             Storage::delete('public/' . $room->image);
         }
         $room->delete();
-        return redirect()->route('rooms.index')->with('success', 'Room deleted successfully.');
+        return redirect()->route('rooms.index')->with('success', 'Habitación eliminada exitosamente.');
     }
 }
