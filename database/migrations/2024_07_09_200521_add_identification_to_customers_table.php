@@ -13,11 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::table('rooms', function (Blueprint $table) {
-            // Elimina o comenta esta línea
-            // $table->string('status')->default('Disponible')->nullable(false);
+        Schema::table('customers', function (Blueprint $table) {
+            $table->string('identification')->nullable()->after('email');
         });
     }
+
 
     /**
      * Reverse the migrations.
@@ -26,8 +26,8 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::table('rooms', function (Blueprint $table) {
-            // $table->dropColumn('status');
+        Schema::table('customers', function (Blueprint $table) {
+            $table->dropColumn('identification');
         });
     }
 };

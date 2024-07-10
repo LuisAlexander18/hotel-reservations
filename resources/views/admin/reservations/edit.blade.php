@@ -24,7 +24,7 @@
                         </div>
                         <div class="form-group">
                             <label for="customer_id">Cliente</label>
-                            <select name="customer_id" class="form-control" required>
+                            <select name="customer_id" class="form-control" id="customer_id" {{ $reservation->status == 'available' ? '' : 'required' }}>
                                 @foreach($customers as $customer)
                                     <option value="{{ $customer->id }}" {{ $customer->id == $reservation->customer_id ? 'selected' : '' }}>
                                         {{ $customer->name }}
@@ -48,3 +48,18 @@
     </div>
 </div>
 @endsection
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const statusField = document.querySelector('[name="status"]');
+        const customerField = document.getElementById('customer_id');
+
+        statusField.addEventListener('change', function() {
+            if (this.value === 'available') {
+                customerField.removeAttribute('required');
+            } else {
+                customerField.setAttribute('required', 'required');
+            }
+        });
+    });
+</script>

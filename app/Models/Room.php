@@ -27,6 +27,6 @@ class Room extends Model
 
     public function currentReservation()
     {
-        return $this->hasOne(Reservation::class)->latest();
+        return $this->hasOne(Reservation::class)->latestOfMany('check_in_date');
     }
 }

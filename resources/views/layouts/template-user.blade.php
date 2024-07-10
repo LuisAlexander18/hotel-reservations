@@ -27,7 +27,7 @@
 
     <!-- Nepcha Analytics (nepcha.com) -->
     <!-- Nepcha is a easy-to-use web analytics. No cookies and fully compliant with GDPR, CCPA and PECR. -->
-    <script defer data-site="YOUR_DOMAIN_HERE" src="https://api.nepcha.com/js/nepcha-analytics.js"></script>
+
 
     <style>
         .word-wrap {
@@ -96,7 +96,7 @@
 
 
 <li class="nav-item">
-  <a class="nav-link text-white " href="{{ route('reservations.index') }}">
+  <a class="nav-link text-white " href="{{ route('customers.index') }}">
 
       <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
         <i class="material-icons opacity-10">view_in_ar</i>
@@ -218,7 +218,7 @@
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="./assets/img/team-2.jpg" class="avatar avatar-sm me-3 ">
+
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
@@ -236,7 +236,7 @@
                             <a class="dropdown-item border-radius-md" href="javascript:;">
                                 <div class="d-flex py-1">
                                     <div class="my-auto">
-                                        <img src="./assets/img/small-logos/logo-spotify.svg" class="avatar avatar-sm bg-gradient-dark me-3 ">
+
                                     </div>
                                     <div class="d-flex flex-column justify-content-center">
                                         <h6 class="text-sm font-weight-normal mb-1">
