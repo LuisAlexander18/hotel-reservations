@@ -8,6 +8,8 @@ use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ReservationController;
 use App\Http\Controllers\Auth\RegisterUserController;
 use App\Http\Controllers\CustomerController;
+use App\Http\Controllers\InventoryController;
+use App\Http\Controllers\InventoryAssignmentController;
 
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.index');
@@ -16,6 +18,7 @@ Route::controller(FrontController::class)->group(function () {
 Route::resource('rooms', RoomController::class)->middleware('auth');
 Route::resource('reservations', ReservationController::class)->middleware('auth');
 Route::resource('customers', CustomerController::class)->middleware('auth');
+Route::resource('inventories', InventoryController::class)->middleware('auth');
 
 Route::post('reservations/change-status/{room}', [ReservationController::class, 'changeStatus'])->name('reservations.changeStatus');
 
@@ -41,5 +44,7 @@ Route::post('register', [RegisterUserController::class, 'register']);
 
 Route::get('reservations/assign/{customer_id}', [ReservationController::class, 'assignRoom'])->name('reservations.assignRoom');
 Route::post('reservations/assign', [ReservationController::class, 'storeAssignment'])->name('reservations.storeAssignment');
+Route::get('inventory-assignments/create', [InventoryAssignmentController::class, 'create'])->name('inventory_assignments.create')->middleware('auth');
+Route::post('inventory-assignments', [InventoryAssignmentController::class, 'store'])->name('inventory_assignments.store')->middleware('auth');
 
 require __DIR__.'/auth.php';
