@@ -1,4 +1,3 @@
-<!-- resources/views/admin/inventories/edit.blade.php -->
 @extends('layouts.template-user')
 
 @section('contenido')
@@ -10,7 +9,7 @@
                     <h4>Editar Producto</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('inventories.update', $inventory) }}" method="POST">
+                    <form action="{{ route('inventories.update', $inventory) }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas actualizar este producto?');">
                         @csrf
                         @method('PUT')
                         <div class="mb-3">
@@ -34,6 +33,7 @@
                             <input type="number" class="form-control" id="quantity" name="quantity" value="{{ $inventory->quantity }}" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <a href="{{ route('inventories.index') }}" class="btn btn-transparent" onclick="return confirm('¿Estás seguro de que deseas cancelar?');">Cancelar</a>
                     </form>
                 </div>
             </div>

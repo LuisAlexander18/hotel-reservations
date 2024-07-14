@@ -1,6 +1,5 @@
 <?php
 
-// app/Models/InventoryAssignment.php
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -11,7 +10,7 @@ class InventoryAssignment extends Model
     use HasFactory;
 
     protected $fillable = [
-        'inventory_id', 'assignable_id', 'assignable_type', 'quantity'
+        'assignable_type', 'assignable_id', 'inventory_id', 'quantity'
     ];
 
     public function assignable()

@@ -1,4 +1,3 @@
-<!-- resources/views/admin/inventories/create.blade.php -->
 @extends('layouts.template-user')
 
 @section('contenido')
@@ -10,7 +9,7 @@
                     <h4>Añadir Producto</h4>
                 </div>
                 <div class="card-body">
-                    <form action="{{ route('inventories.store') }}" method="POST">
+                    <form action="{{ route('inventories.store') }}" method="POST" onsubmit="return confirm('¿Estás seguro de que deseas guardar este producto?');">
                         @csrf
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre</label>
@@ -33,6 +32,7 @@
                             <input type="number" class="form-control" id="quantity" name="quantity" required>
                         </div>
                         <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a href="{{ route('inventories.index') }}" class="btn btn-transparent" onclick="return confirm('¿Estás seguro de que deseas cancelar?');">Cancelar</a>
                     </form>
                 </div>
             </div>

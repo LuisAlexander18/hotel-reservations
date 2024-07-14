@@ -19,6 +19,7 @@ Route::resource('rooms', RoomController::class)->middleware('auth');
 Route::resource('reservations', ReservationController::class)->middleware('auth');
 Route::resource('customers', CustomerController::class)->middleware('auth');
 Route::resource('inventories', InventoryController::class)->middleware('auth');
+Route::resource('inventory-assignments', InventoryAssignmentController::class);
 
 Route::post('reservations/change-status/{room}', [ReservationController::class, 'changeStatus'])->name('reservations.changeStatus');
 
