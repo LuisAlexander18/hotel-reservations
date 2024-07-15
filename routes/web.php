@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\RegisterUserController;
 use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryAssignmentController;
+use App\Http\Controllers\PaymentController;
 
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.index');
@@ -20,6 +21,7 @@ Route::resource('reservations', ReservationController::class)->middleware('auth'
 Route::resource('customers', CustomerController::class)->middleware('auth');
 Route::resource('inventories', InventoryController::class)->middleware('auth');
 Route::resource('inventory-assignments', InventoryAssignmentController::class);
+
 
 Route::post('reservations/change-status/{room}', [ReservationController::class, 'changeStatus'])->name('reservations.changeStatus');
 
@@ -35,6 +37,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::resource('payments', PaymentController::class)->only(['create', 'store']);
 });
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
@@ -42,6 +45,8 @@ Route::post('login', [LoginController::class, 'login']);
 Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('register', [RegisterUserController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterUserController::class, 'register']);
+Route::get('payments/create', [PaymentController::class, 'create'])->name('payments.create');
+Route::post('payments/store', [PaymentController::class, 'store'])->name('payments.store');
 
 Route::get('reservations/assign/{customer_id}', [ReservationController::class, 'assignRoom'])->name('reservations.assignRoom');
 Route::post('reservations/assign', [ReservationController::class, 'storeAssignment'])->name('reservations.storeAssignment');
