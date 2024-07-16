@@ -45,8 +45,8 @@
                                     <td>
                                         <form id="form-{{ $room->id }}" action="{{ route('reservations.changeStatus', $room) }}" method="POST" style="display:inline-block;">
                                             @csrf
-                                            <button type="submit" name="status" value="available" class="btn btn-transparent" onclick="return confirm('¿Estás seguro de que deseas marcar esta habitación como Disponible?')">Disponible</button>
-                                            <button type="submit" name="status" value="occupied" class="btn btn-danger">Reservar</button>
+                                            <button type="submit" name="status" value="available" class="btn btn-{{ $room->status == 'available' ? 'success' : 'transparent' }}" onclick="return confirm('¿Estás seguro de que deseas marcar esta habitación como Disponible?')">Disponible</button>
+                                            <button type="submit" name="status" value="occupied" class="btn btn-{{ $room->status == 'occupied' ? 'danger' : 'transparent' }}">Reservar</button>
                                         </form>
                                     </td>
                                 </tr>
