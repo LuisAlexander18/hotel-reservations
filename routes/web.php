@@ -21,6 +21,8 @@ Route::resource('reservations', ReservationController::class)->middleware('auth'
 Route::resource('customers', CustomerController::class)->middleware('auth');
 Route::resource('inventories', InventoryController::class)->middleware('auth');
 Route::resource('inventory-assignments', InventoryAssignmentController::class);
+Route::post('/payments/process', [PaymentController::class, 'process'])->name('payments.process');
+
 
 Route::post('reservations/change-status/{room}', [ReservationController::class, 'changeStatus'])->name('reservations.changeStatus');
 
@@ -46,6 +48,9 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('register', [RegisterUserController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterUserController::class, 'register']);
 Route::get('/api/room-details/{room}', [PaymentController::class, 'getRoomDetails']);
+Route::get('/payments/card', [PaymentController::class, 'cardPaymentForm'])->name('payments.cardPaymentForm');
+Route::post('/payments/card/process', [PaymentController::class, 'processCardPayment'])->name('payments.processCardPayment');
+Route::post('/payments/store', [PaymentController::class, 'store'])->name('payments.store');
 
 Route::get('reservations/assign/{customer_id}', [ReservationController::class, 'assignRoom'])->name('reservations.assignRoom');
 Route::post('reservations/assign', [ReservationController::class, 'storeAssignment'])->name('reservations.storeAssignment');

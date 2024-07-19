@@ -72,7 +72,7 @@
                         </div>
 
                         <button type="submit" class="btn btn-primary">Confirmar Pago</button>
-                        <a href="{{ route('reservations.index') }}" class="btn btn-secondary">Cancelar</a>
+                        <a href="{{ route('reservations.index') }}" class="btn btn-transparent">Cancelar</a>
                     </form>
                 </div>
             </div>
@@ -132,6 +132,7 @@
                 cardTypeDiv.style.display = 'block';
                 receivedAmountDiv.style.display = 'none';
                 receivedAmountInput.value = totalAmount.toFixed(2);
+                document.getElementById('payment-form').action = "{{ route('payments.store') }}";
             } else if (this.value === 'cash') {
                 cardTypeDiv.style.display = 'none';
                 receivedAmountDiv.style.display = 'block';
