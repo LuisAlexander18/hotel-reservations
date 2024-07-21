@@ -1,4 +1,3 @@
-
 @extends('layouts.template-user')
 
 @section('contenido')
@@ -36,7 +35,7 @@
         </div>
         <div class="mb-3">
             <label for="additional_email" class="form-label">Email Adicional</label>
-            <input type="email" name="additional_email" id="additional_email" class="form-control" required>
+            <input type="email" name="additional_email" id="additional_email" class="form-control">
         </div>
         <button type="submit" class="btn btn-primary">Pagar</button>
         <a href="{{ route('payments.create') }}" class="btn btn-transparent">Atrás</a>

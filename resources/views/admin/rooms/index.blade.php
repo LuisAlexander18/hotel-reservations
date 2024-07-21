@@ -45,7 +45,7 @@
                                         <form action="{{ route('rooms.destroy', $room) }}" method="POST" style="display:inline-block;">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar esta habitación?');">Eliminar</button>
+                                            <button type="submit" class="btn btn-danger" {{ $room->status == 'occupied' ? 'disabled' : '' }} onclick="return confirm('¿Estás seguro de que deseas eliminar esta habitación?');">Eliminar</button>
                                         </form>
                                         @if($room->status == 'Disponible')
                                         <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#reserveModal-{{ $room->id }}">Reservar</button>

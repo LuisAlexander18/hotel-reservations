@@ -11,6 +11,7 @@ use App\Http\Controllers\CustomerController;
 use App\Http\Controllers\InventoryController;
 use App\Http\Controllers\InventoryAssignmentController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ReportController;
 
 Route::controller(FrontController::class)->group(function () {
     Route::get('/', 'index')->name('front.index');
@@ -22,7 +23,6 @@ Route::resource('customers', CustomerController::class)->middleware('auth');
 Route::resource('inventories', InventoryController::class)->middleware('auth');
 Route::resource('inventory-assignments', InventoryAssignmentController::class);
 Route::post('/payments/process', [PaymentController::class, 'process'])->name('payments.process');
-
 
 Route::post('reservations/change-status/{room}', [ReservationController::class, 'changeStatus'])->name('reservations.changeStatus');
 
@@ -40,6 +40,20 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('payments/create', [PaymentController::class, 'create'])->name('payments.create');
     Route::post('payments/store', [PaymentController::class, 'store'])->name('payments.store');
+
+    // Rutas para los reportes
+    Route::prefix('admin/reports')->name('admin.reports.')->group(function () {
+        Route::get('/', [ReportController::class, 'index'])->name('index');
+        Route::get('/payments', [ReportController::class, 'generatePaymentsReport'])->name('payments');
+        Route::get('/reservations', [ReportController::class, 'generateReservationsReport'])->name('reservations');
+        Route::get('/customers', [ReportController::class, 'generateCustomersReport'])->name('customers');
+        Route::get('/rooms', [ReportController::class, 'generateRoomsReport'])->name('rooms');
+        Route::get('/inventories', [ReportController::class, 'generateInventoriesReport'])->name('inventories');
+        Route::get('/admins', [ReportController::class, 'generateAdminsReport'])->name('admins');
+        Route::get('/card-payments', [ReportController::class, 'generateCardPaymentsReport'])->name('cardPayments');
+        Route::get('/inventory-assignments', [ReportController::class, 'generateInventoryAssignmentsReport'])->name('inventoryAssignments');
+        Route::get('/users', [ReportController::class, 'generateUsersReport'])->name('users');
+    });
 });
 
 Route::get('login', [LoginController::class, 'showLoginForm'])->name('login');
