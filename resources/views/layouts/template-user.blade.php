@@ -119,13 +119,14 @@
 
 
 <li class="nav-item">
-  <a class="nav-link text-white " href="{{ route('register') }}">
+  <a class="nav-link text-white " href="{{ route('users.index') }}">
     <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
       <i class="material-icons opacity-10">format_textdirection_r_to_l</i>
     </div>
-    <span class="nav-link-text ms-1">Crear Usuarios</span>
+    <span class="nav-link-text ms-1">Usuarios</span>
   </a>
 </li>
+
 
 
 
@@ -167,15 +168,17 @@
 
 
 <li class="nav-item">
-  <a class="nav-link text-white " href="{{ url('/') }}">
-
-      <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
-        <i class="material-icons opacity-10">login</i>
-      </div>
-
+  <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+      @csrf
+  </form>
+  <a class="nav-link text-white" href="{{ route('logout') }}"
+     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+    <div class="text-white text-center me-2 d-flex align-items-center justify-content-center">
+      <i class="material-icons opacity-10">login</i>
+    </div>
     <span class="nav-link-text ms-1">Salir</span>
   </a>
-</li><br><br><br>
+</li>
 
 
     </ul>
@@ -297,11 +300,17 @@
                     </ul>
                 </li>
                 <li class="nav-item d-flex align-items-center">
-                    <a href="{{ url('/') }}" class="nav-link text-body font-weight-bold px-0">
+                    <a href="{{ route('logout') }}" class="nav-link text-body font-weight-bold px-0"
+                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                         <i class="fa fa-user me-sm-1"></i>
                         <span class="d-sm-inline d-none">Salir</span>
                     </a>
                 </li>
+
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                    @csrf
+                </form>
+
             </ul>
         </div>
     </div>
