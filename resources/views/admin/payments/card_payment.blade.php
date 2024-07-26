@@ -1,14 +1,14 @@
-
 @extends(request()->has('from_front') ? 'layouts.template-payment-card' : 'layouts.template-user')
 
 @section('contenido')
 <div class="container">
     <h2>Pago con Tarjeta</h2>
-    <form method="POST" action="{{ route('payments.processCardPayment') }}">
+    <form id="payment-form" method="POST" action="{{ route('payments.processCardPayment') }}">
         @csrf
         <input type="hidden" name="room_id" value="{{ $room_id }}">
         <input type="hidden" name="payment_method" value="card">
         <input type="hidden" name="total_amount" value="{{ $total_amount }}">
+        <input type="hidden" name="from_front" value="{{ request()->has('from_front') ? '1' : '0' }}">
 
         <div class="mb-3">
             <label for="card_type" class="form-label">Tipo de Tarjeta</label>
@@ -44,6 +44,7 @@
 </div>
 @endsection
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     const expiryDateInput = document.getElementById('expiry_date');
@@ -66,6 +67,25 @@ document.addEventListener('DOMContentLoaded', function() {
     const cvvInput = document.getElementById('cvv');
     cvvInput.addEventListener('input', function(event) {
         this.value = this.value.replace(/\D/g, '').substring(0, 3);
+    });
+
+    const form = document.getElementById('payment-form');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+
+        const cardNumber = document.getElementById('card_number').value;
+        const cvv = document.getElementById('cvv').value;
+
+        // Replace 'your-secret-key' with your actual secret key
+        const secretKey = 'your-secret-key';
+
+        const encryptedCardNumber = CryptoJS.AES.encrypt(cardNumber, secretKey).toString().substring(0, 60);
+        const encryptedCVV = CryptoJS.AES.encrypt(cvv, secretKey).toString().substring(0, 3);
+
+        document.getElementById('card_number').value = encryptedCardNumber;
+        document.getElementById('cvv').value = encryptedCVV;
+
+        form.submit();
     });
 });
 </script>

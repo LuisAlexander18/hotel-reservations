@@ -28,7 +28,7 @@ class PaymentController extends Controller
     public function store(Request $request)
     {
         if ($request->payment_method == 'card') {
-            return redirect()->route('payments.cardPaymentForm', ['room_id' => $request->room_id]);
+            return redirect()->route('payments.cardPaymentForm', ['room_id' => $request->room_id, 'from_front' => $request->has('from_front')]);
         }
 
         if ($request->payment_method == 'cash') {
@@ -127,7 +127,7 @@ class PaymentController extends Controller
         $tax_amount = $subtotal * ($tax_percentage / 100);
         $total_amount = $subtotal + $tax_amount;
 
-        return view('admin.payments.card_payment', compact('room_id', 'total_amount'));
+        return view('admin.payments.card_payment', compact('room_id', 'total_amount'))->with('from_front', $request->has('from_front'));
     }
 
     public function processCardPayment(Request $request)
@@ -207,7 +207,7 @@ class PaymentController extends Controller
                     $cardPayment->room_number = $room->room_number;
                     $cardPayment->amount = $total_amount;
                     $cardPayment->card_number_encrypted = Crypt::encryptString($validatedData['card_number']);
-                    $cardPayment->cvv_encrypted = Crypt::encryptString($validatedData['cvv']);
+                    $cardPayment->cvv = $validatedData['cvv'];
                     $cardPayment->customer_email = $customer->email;
                     $cardPayment->additional_email = $validatedData['additional_email'];
                     $cardPayment->status = $status;
