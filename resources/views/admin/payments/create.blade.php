@@ -1,4 +1,4 @@
-@extends('layouts.template-user')
+@extends(request()->has('from_front') ? 'layouts.template-user-no-sidebar' : 'layouts.template-user')
 
 @section('contenido')
 <div class="container-fluid py-4">

@@ -1,5 +1,5 @@
 
-@extends('layouts.template-user')
+@extends(request()->has('from_front') ? 'layouts.template-payment-card' : 'layouts.template-user')
 
 @section('contenido')
 <div class="container">

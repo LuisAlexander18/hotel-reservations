@@ -17,27 +17,33 @@
             flex-direction: column;
             text-align: center;
         }
+
         .card {
             margin: 20px 0;
         }
+
         .card-body {
             text-align: left;
-        }
-        .navbar-nav {
-            margin-left: auto;
-        }
-        .card-img-top {
-            width: 100%;
-            height: 200px; /* Ajusta la altura según tus necesidades */
-            object-fit: cover; /* Esta propiedad asegura que la imagen cubra el área sin deformarse */
         }
 
         .navbar-nav {
             margin-left: auto;
         }
+
+        .card-img-top {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .navbar-nav {
+            margin-left: auto;
+        }
+
         .nav-item .nav-link.btn {
             margin-left: 10px;
         }
+
         .bg-primary {
             background-color: #007bff !important;
         }
@@ -46,14 +52,41 @@
             background-color: #28a745;
             border-color: #28a745;
         }
+
         .btn-danger {
             background-color: #dc3545;
             border-color: #dc3545;
         }
+
         .nav-link-white {
             color: #fff !important;
         }
 
+        .btn-disabled-yellow {
+            background-color: #ffc107 !important; /* Color amarillo */
+            border-color: #ffc107 !important; /* Color amarillo */
+            color: #ffffff !important; /* Color del texto blanco */
+            cursor: not-allowed; /* Indicador visual de que el botón está deshabilitado */
+        }
+
+        .btn-transparent {
+            background-color: transparent !important;
+            border-color: transparent !important;
+            color: #000000 !important;
+            cursor: not-allowed;
+        }
+
+        .contact-info {
+            background-color: #007bff; /* Fondo azul para la sección de contacto */
+            color: white; /* Texto blanco */
+            padding: 20px 0;
+        }
+
+        footer {
+            background-color: #f8f9fa;
+            padding: 20px 0;
+            text-align: center; /* Centrado del texto de copyright */
+        }
     </style>
 </head>
 
@@ -75,10 +108,7 @@
                 <li class="nav-item">
                     <a class="nav-link nav-link-white" href="https://instagram.com" target="_blank">Instagram</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link nav-link-white" href="#contacto">Contacto</a>
-                </li>
-                <li class="nav-item">
+                <li the nav-item">
                     <a class="nav-link btn btn-primary text-white" href="{{ route('login') }}">Iniciar Sesión</a>
                 </li>
             </ul>
@@ -87,20 +117,18 @@
 </nav>
 <!-- End Navbar -->
 
-    <div class="page-header header-filter" style="background-image: url('{{ asset('assets/front/assets/img/bg.jpg') }}');">
-        <div class="container centered-content">
-            <h1 class="title">Hotel La Casa Club</h1>
-            <h4>Explora nuestras habitaciones y reserva las fechas que prefieras.</h4>
-            <br>
-            <a href="#habitaciones" class="btn btn-primary btn-lg">
-                Ver Habitaciones
-            </a>
-        </div>
+<div class="page-header header-filter" style="background-image: url('{{ asset('assets/front/assets/img/bg.jpg') }}');">
+    <div class="container centered-content">
+        <h1 class="title">Hotel La Casa Club</h1>
+        <h4>Explora nuestras habitaciones y reserva las fechas que prefieras.</h4>
+        <br>
+        <a href="#habitaciones" class="btn btn-primary btn-lg">
+            Ver Habitaciones
+        </a>
     </div>
+</div>
 
-
-
-    <div class="main main-raised">
+<div class="main main-raised">
     <div class="container">
         <div class="section text-center" id="comodidades">
             <div class="row">
@@ -148,19 +176,16 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+        </div>
 
-    <div class="main main-raised">
-        <div class="container">
-            <div class="section text-center" id="habitaciones">
-                <div class="row">
-                    <div class="col-md-12">
-                        <h2 class="title">Nuestras Habitaciones Planta Baja</h2>
-                        <p class="description">Selecciona las fechas y verifica la disponibilidad.</p>
-                    </div>
+        <div class="section text-center" id="habitaciones">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2 class="title">Nuestras Habitaciones</h2>
+                    <p class="description">Selecciona una habitación para añadir un cliente.</p>
                 </div>
-                <div class="row">
-                <div class="row">
+            </div>
+            <div class="row">
                 @foreach ($rooms as $room)
                     <div class="col-md-4">
                         <div class="card">
@@ -170,63 +195,35 @@
                                 <p class="card-text">{{ $room->description }}</p>
                                 <p class="card-text"><strong>Precio:</strong> ${{ $room->price }} por noche</p>
                                 <p class="card-text"><strong>Capacidad:</strong> {{ $room->capacity }} personas</p>
-                                <form>
-                                    <div class="form-group">
-                                        <label for="checkin{{ $room->id }}">Fecha de entrada:</label>
-                                        <input type="date" class="form-control" id="checkin{{ $room->id }}" placeholder="Selecciona tu fecha de entrada">
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="checkout{{ $room->id }}">Fecha de salida:</label>
-                                        <input type="date" class="form-control" id="checkout{{ $room->id }}" placeholder="Selecciona tu fecha de salida">
-                                    </div>
-                                    <button type="button" class="btn btn-availability" data-room-id="{{ $room->id }}">Reservar</button>
-                                </form>
+                                <div>
+                                    <label for="check_in_{{ $room->id }}">Check-in:</label>
+                                    <input type="date" id="check_in_{{ $room->id }}" name="check_in" class="form-control" {{ $room->status == 'occupied' ? 'disabled' : '' }}>
+                                    <label for="check_out_{{ $room->id }}">Check-out:</label>
+                                    <input type="date" id="check_out_{{ $room->id }}" name="check_out" class="form-control" {{ $room->status == 'occupied' ? 'disabled' : '' }}>
+                                </div>
+                                @if($room->status == 'available')
+                                    <p class="card-text"><strong>Estado de la habitación:</strong>
+                                        <button class="btn btn-success">Disponible</button>
+                                    </p>
+                                    <a href="{{ url('/customers/create?room_id=' . $room->id) }}" class="btn btn-disabled-yellow">Lo quiero reservar</a>
+                                @else
+                                    <p class="card-text"><strong>Estado de la habitación:</strong>
+                                        <button class="btn btn-danger" disabled>Reservado</button>
+                                        <p>Reservado desde: {{ $room->reservations->last()->check_in_date }} hasta {{ $room->reservations->last()->check_out_date }}</p>
+                                    </p>
+                                    <a href="#" class="btn btn-transparent" disabled>Lo quiero reservar</a>
+                                @endif
                             </div>
                         </div>
                     </div>
                 @endforeach
-                </div>
             </div>
         </div>
     </div>
+</div>
 
-    <!-- Core JS Files -->
-    <script src="{{ asset('assets/front/assets/js/core/jquery.min.js') }}"></script>
-    <script src="{{ asset('assets/front/assets/js/core/popper.min.js') }}"></script>
-    <script src="{{ asset('assets/front/assets/js/core/bootstrap.min.js') }}"></script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const today = new Date().toISOString().split('T')[0];
-        document.querySelectorAll('input[type="date"]').forEach(function(input) {
-            input.setAttribute('min', today);
-        });
-    });
-</script>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const buttons = document.querySelectorAll('.btn-availability');
-        buttons.forEach(button => {
-            const roomId = button.getAttribute('data-room-id');
-            // Aquí, agregarías una lógica para verificar la disponibilidad de la habitación
-            // Por ejemplo, una llamada AJAX para obtener la disponibilidad del servidor
-            // Para este ejemplo, vamos a simular la disponibilidad
-            const isAvailable = Math.random() > 0.5; // Simulación de disponibilidad
-            if (isAvailable) {
-                button.classList.remove('btn-danger');
-                button.classList.add('btn-success');
-                button.innerText = 'Disponible';
-            } else {
-                button.classList.remove('btn-success');
-                button.classList.add('btn-danger');
-                button.innerText = 'No Disponible';
-            }
-        });
-    });
-</script>
-
-<!-- Información de Contacto -->
-<div id="contacto" class="container-fluid bg-primary text-white p-4">
+<!-- Contacto -->
+<div class="container-fluid bg-primary text-white p-4" id="contacto">
     <div class="row">
         <div class="col-md-4">
             <h5>Dirección</h5>
@@ -243,6 +240,30 @@
     </div>
 </div>
 
+<!-- Footer -->
+<footer class="text-center p-3 bg-light">
+    <p>&copy; {{ date('Y') }} Hotel La Casa Club. Todos los derechos reservados.</p>
+</footer>
+
+<!-- Core JS Files -->
+<script src="{{ asset('assets/front/assets/js/core/jquery.min.js') }}"></script>
+<script src="{{ asset('assets/front/assets/js/core/popper.min.js') }}"></script>
+<script src="{{ asset('assets/front/assets/js/core/bootstrap.min.js') }}"></script>
+<script src="{{ asset('assets/front/assets/js/plugins/perfect-scrollbar.min.js') }}"></script>
+<script src="{{ asset('assets/front/assets/js/material-kit.min.js') }}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Lógica para la validación de las fechas de check-in y check-out
+        const today = new Date().toISOString().split('T')[0];
+        document.querySelectorAll('input[name="check_in"]').forEach(function (input) {
+            input.setAttribute('min', today);
+            input.addEventListener('change', function () {
+                const checkOutInput = document.querySelector(`input[name="check_out"][id="check_out_${input.id.split('_')[2]}"]`);
+                checkOutInput.setAttribute('min', input.value);
+            });
+        });
+    });
+</script>
 </body>
 
 </html>

@@ -24,7 +24,6 @@ Route::resource('reservations', ReservationController::class)->middleware('auth'
 Route::resource('customers', CustomerController::class)->middleware('auth');
 Route::resource('inventories', InventoryController::class)->middleware('auth');
 Route::resource('inventory-assignments', InventoryAssignmentController::class)->middleware('auth');
-Route::post('/payments/process', [PaymentController::class, 'process'])->name('payments.process');
 
 Route::post('reservations/change-status/{room}', [ReservationController::class, 'changeStatus'])->name('reservations.changeStatus');
 
@@ -40,9 +39,12 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Rutas para pagos
     Route::get('payments/create', [PaymentController::class, 'create'])->name('payments.create');
     Route::post('payments/store', [PaymentController::class, 'store'])->name('payments.store');
-    Route::post('email/resend', [VerificationController::class, 'resend'])->middleware('auth')->name('verification.resend');
+    Route::get('/payments/card', [PaymentController::class, 'cardPaymentForm'])->name('payments.cardPaymentForm');
+    Route::post('/payments/card/process', [PaymentController::class, 'processCardPayment'])->name('payments.processCardPayment');
 
     // Rutas para los reportes
     Route::prefix('admin/reports')->name('admin.reports.')->group(function () {
@@ -65,14 +67,14 @@ Route::post('logout', [LoginController::class, 'logout'])->name('logout');
 Route::get('register', [RegisterUserController::class, 'showRegistrationForm'])->name('register');
 Route::post('register', [RegisterUserController::class, 'register']);
 Route::get('/api/room-details/{room}', [PaymentController::class, 'getRoomDetails']);
-Route::get('/payments/card', [PaymentController::class, 'cardPaymentForm'])->name('payments.cardPaymentForm');
-Route::post('/payments/card/process', [PaymentController::class, 'processCardPayment'])->name('payments.processCardPayment');
-Route::post('/payments/store', [PaymentController::class, 'store'])->name('payments.store');
+
 
 Route::get('reservations/assign/{customer_id}', [ReservationController::class, 'assignRoom'])->name('reservations.assignRoom');
 Route::post('reservations/assign', [ReservationController::class, 'storeAssignment'])->name('reservations.storeAssignment');
 Route::get('inventory-assignments/create', [InventoryAssignmentController::class, 'create'])->name('inventory_assignments.create')->middleware('auth');
 Route::post('inventory-assignments', [InventoryAssignmentController::class, 'store'])->name('inventory_assignments.store')->middleware('auth');
 Route::get('/users', [UserController::class, 'index'])->name('users.index')->middleware('auth');
+Route::post('/check-availability', [ReservationController::class, 'checkAvailability'])->name('check-availability');
+Route::post('/make-reservation', [ReservationController::class, 'makeReservation'])->name('make-reservation');
 
 require __DIR__.'/auth.php';

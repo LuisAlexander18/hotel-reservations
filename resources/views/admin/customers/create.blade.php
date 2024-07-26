@@ -1,4 +1,4 @@
-@extends('layouts.template-user')
+@extends(request()->has('room_id') ? 'layouts.template-admin' : 'layouts.template-user')
 
 @section('contenido')
 <div class="container-fluid py-4">
@@ -6,11 +6,14 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-                    <h4>Añadir Cliente</h4>
+                    <h4>Registrar Datos Cliente</h4>
                 </div>
                 <div class="card-body">
                     <form action="{{ route('customers.store') }}" method="POST">
                         @csrf
+                        @if(request()->has('room_id'))
+                            <input type="hidden" name="room_id" value="{{ request('room_id') }}">
+                        @endif
                         <div class="mb-3">
                             <label for="name" class="form-label">Nombre</label>
                             <input type="text" class="form-control" id="name" name="name" required>

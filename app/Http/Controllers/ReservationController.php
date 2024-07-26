@@ -6,12 +6,13 @@ use App\Models\Room;
 use App\Models\Reservation;
 use App\Models\Customer;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class ReservationController extends Controller
 {
     public function index()
     {
-        $rooms = Room::with(['currentReservation'])->orderBy('room_number', 'asc')->get();
+        $rooms = Room::with(['currentReservation', 'reservations'])->orderBy('room_number', 'asc')->get();
         $customers = Customer::all();
         return view('admin.reservations.index', compact('rooms', 'customers'));
     }
@@ -104,5 +105,59 @@ class ReservationController extends Controller
         ]);
 
         return redirect()->route('reservations.index')->with('success', 'Habitación asignada exitosamente.');
+    }
+
+    public function checkAvailability(Request $request)
+    {
+        $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'check_in_date' => 'required|date|before:check_out_date',
+            'check_out_date' => 'required|date|after:check_in_date'
+        ]);
+
+        $isAvailable = Reservation::where('room_id', $request->room_id)
+            ->where(function ($query) use ($request) {
+                $query->whereBetween('check_in_date', [$request->check_in_date, $request->check_out_date])
+                      ->orWhereBetween('check_out_date', [$request->check_in_date, $request->check_out_date])
+                      ->orWhere(function ($query) use ($request) {
+                          $query->where('check_in_date', '<=', $request->check_in_date)
+                                ->where('check_out_date', '>=', $request->check_out_date);
+                      });
+            })->count() == 0;
+
+        return response()->json(['isAvailable' => $isAvailable]);
+    }
+
+
+    public function makeReservation(Request $request)
+    {
+        $request->validate([
+            'room_id' => 'required|exists:rooms,id',
+            'check_in_date' => 'required|date|before:check_out_date',
+            'check_out_date' => 'required|date|after:check_in_date'
+        ]);
+
+        // Verificar si el usuario está autenticado
+        if (auth()->check()) {
+            $userId = auth()->id();
+        } else {
+            // Si no está autenticado, manejar el error o redirigir
+            return response()->json(['error' => 'Usuario no autenticado.'], 401);
+        }
+
+        $reservation = Reservation::create([
+            'room_id' => $request->room_id,
+            'user_id' => $userId,
+            'check_in_date' => $request->check_in_date,
+            'check_out_date' => $request->check_out_date,
+            'status' => 'pending'
+        ]);
+
+        // Redirigir a la página de pago
+        if (auth()->user()->role == 'admin') {
+            return response()->json(['redirect_url' => url('/payments/card?room_id=' . $request->room_id)]);
+        } else {
+            return response()->json(['redirect_url' => url('/payments/card?reservation_id=' . $reservation->id)]);
+        }
     }
 }

@@ -25,11 +25,13 @@ class CustomerController extends Controller
             'email' => 'required|string|email|max:255|unique:customers',
             'phone' => 'nullable|string|max:15',
             'identification' => 'required|string|max:255|unique:customers',
+            'room_id' => 'required|exists:rooms,id', // Validar el room_id
         ]);
 
-        Customer::create($request->all());
+        $customer = Customer::create($request->all());
 
-        return redirect()->route('customers.index')->with('success', 'Cliente creado exitosamente.');
+        // Redirigir al formulario de pago sin el panel izquierdo
+        return redirect()->route('payments.create', ['room_id' => $request->room_id, 'customer_id' => $customer->id, 'from_front' => true]);
     }
 
     public function edit(Customer $customer)
