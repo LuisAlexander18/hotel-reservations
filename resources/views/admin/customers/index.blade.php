@@ -49,7 +49,12 @@
                                                 <button type="submit" class="btn btn-danger" onclick="return confirm('¿Estás seguro de que deseas eliminar este cliente?');">Eliminar</button>
                                             </form>
                                         @else
-                                            <span class="text-muted">No se puede editar/eliminar (Reserva activa)</span>
+                                            <a href="{{ route('customers.edit', $customer) }}" class="btn btn-warning disabled" aria-disabled="true">Editar</a>
+                                            <form action="{{ route('customers.destroy', $customer) }}" method="POST" style="display:inline-block;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-danger disabled" aria-disabled="true">Eliminar</button>
+                                            </form>
                                         @endif
                                         <a href="{{ route('reservations.index', ['customer_id' => $customer->id]) }}" class="btn btn-info">Asignar Habitación</a>
                                     </td>
