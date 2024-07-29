@@ -81,6 +81,7 @@ class ReportController extends Controller
     }
 
 
+
     public function generateReservationsReport(Request $request)
     {
         $query = Reservation::with(['user', 'room', 'customer']);
@@ -134,7 +135,6 @@ class ReportController extends Controller
 
 
 
-
     public function generateCustomersReport(Request $request)
     {
         $query = Customer::query();
@@ -156,6 +156,12 @@ class ReportController extends Controller
             $query->where('phone', 'like', '%' . $request->phone . '%');
         }
 
+        // Aplicar filtro de fechas de creación (si existen)
+        $fromDate = $request->input('from_date', now()->startOfMonth()->format('Y-m-d'));
+        $toDate = $request->input('to_date', now()->endOfMonth()->format('Y-m-d'));
+
+        $query->whereBetween('created_at', [$fromDate, $toDate]);
+
         // Si el formato es Excel o PDF, obtenemos todos los datos sin paginación
         if ($request->get('format') == 'excel') {
             $customers = $query->get();
@@ -168,8 +174,9 @@ class ReportController extends Controller
 
         // Para la vista HTML, usamos paginación
         $customers = $query->paginate(10);
-        return view('admin.reports.customers', compact('customers'));
+        return view('admin.reports.customers', compact('customers', 'fromDate', 'toDate'));
     }
+
 
 
     public function generateRoomsReport(Request $request)

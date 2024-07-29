@@ -4,8 +4,8 @@
 <div class="container">
     <h1>Reporte de Clientes</h1><br>
     <div class="mb-3">
-        <a href="{{ route('admin.reports.customers', ['format' => 'excel']) }}" class="btn btn-success">Exportar a Excel</a>
-        <a href="{{ route('admin.reports.customers', ['format' => 'pdf']) }}" class="btn btn-danger">Exportar a PDF</a>
+        <a href="{{ route('admin.reports.customers', array_merge(request()->query(), ['format' => 'excel'])) }}" class="btn btn-success">Exportar a Excel</a>
+        <a href="{{ route('admin.reports.customers', array_merge(request()->query(), ['format' => 'pdf'])) }}" class="btn btn-danger">Exportar a PDF</a>
     </div>
 
     <!-- Filtros -->
@@ -26,6 +26,16 @@
             <div class="col-md-3">
                 <label for="phone" class="form-label">Teléfono</label>
                 <input type="text" name="phone" id="phone" class="form-control" value="{{ request('phone') }}">
+            </div>
+        </div>
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <label for="from_date" class="form-label">Desde Fecha</label>
+                <input type="date" name="from_date" id="from_date" class="form-control" value="{{ request('from_date') ?: now()->startOfMonth()->format('Y-m-d') }}">
+            </div>
+            <div class="col-md-3">
+                <label for="to_date" class="form-label">Hasta Fecha</label>
+                <input type="date" name="to_date" id="to_date" class="form-control" value="{{ request('to_date') ?: now()->endOfMonth()->format('Y-m-d') }}">
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Filtrar</button>
